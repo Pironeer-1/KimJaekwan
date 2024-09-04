@@ -1,6 +1,0 @@
-SELECT
-    count(*) as FISH_COUNT
-FROM
-    FISH_INFO i join FISH_NAME_INFO n on i.FISH_TYPE = n.FISH_TYPE
-WHERE
-    n.FISH_NAME IN ('BASS', 'SNAPPER')

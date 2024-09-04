@@ -1,8 +1,0 @@
-SELECT
-    count(*) as FISH_COUNT, n.FISH_NAME
-FROM
-    FISH_INFO as i join FISH_NAME_INFO as n on i.FISH_TYPE = n.FISH_TYPE
-GROUP BY
-    n.FISH_NAME
-ORDER BY
-    FISH_COUNT desc
