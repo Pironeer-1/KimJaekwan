@@ -1,18 +1,25 @@
 package org.example;
 
+import org.example.enums.Value;
+import org.example.output.Printer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import static org.example.enums.Value.STATUS_POINT;
+
 class Game {
     int statusPoint;
     List<Player> playerList;
     Enemy enemy;
+    Printer printer;
 
     public Game() {
-        this.statusPoint = 13;
+        this.statusPoint = STATUS_POINT.getValue();
         this.playerList = new ArrayList<>();
+        this.printer = new Printer();
     }
 
     /*
@@ -24,16 +31,16 @@ class Game {
         int listNum;
         while (true) {
             try {
-                System.out.println("플레이어 인원을 정하세요: ");
+                printer.setPlayerNum();
                 listNum = Integer.parseInt(scanner.nextLine());
 
                 if (listNum <= 0) {
-                    System.out.println("플레이어 인원은 1 이상이어야 합니다.");
+                    printer.requiredPlayerNum1();
                     continue;
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("잘못된 입력입니다. 숫자를 입력해주세요.");
+                printer.requiredInt();
             }
         }
 
@@ -92,9 +99,9 @@ class Game {
         }
 
         if (this.enemy.hp <= 0) {
-            System.out.println("축하합니다! 승리하셨습니다!");
+            printer.winMassage();
         } else {
-            System.out.println("아쉽지만 패배하셨습니다.");
+            printer.loseMassage();
         }
     }
 }
