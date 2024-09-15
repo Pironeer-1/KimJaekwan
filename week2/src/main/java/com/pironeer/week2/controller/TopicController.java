@@ -33,4 +33,10 @@ public class TopicController {
         List<TopicResponse> response = topicService.findAll();
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{topicId}")
+    public ResponseEntity<?> delete(@PathVariable("topicId") Long id) {
+        topicService.delete(id);
+        return ResponseEntity.ok("topic 삭제 성공!");
+    }
 }

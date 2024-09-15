@@ -27,4 +27,8 @@ public class TopicRepository {
     public List<Topic> findAll() {
         return new ArrayList<>(topicMap.values());
     }
+
+    public void delete(Long id) {
+        topicMap.remove(id);
+    }
 }

@@ -37,4 +37,8 @@ public class TopicService {
         List<Topic> topics = topicRepository.findAll();
         return TopicResponse.getTopicResponses(topics);
     }
+
+    public void delete(Long id) {
+        topicRepository.delete(id);
+    }
 }
