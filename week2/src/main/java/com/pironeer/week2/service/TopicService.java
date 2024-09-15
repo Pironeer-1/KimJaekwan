@@ -9,6 +9,7 @@ import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +31,10 @@ public class TopicService {
     public TopicResponse findById(Long id) {
         Topic topic = topicRepository.findById(id);
         return TopicResponse.of(topic);
+    }
+
+    public List<TopicResponse> findAll() {
+        List<Topic> topics = topicRepository.findAll();
+        return TopicResponse.getTopicResponses(topics);
     }
 }
