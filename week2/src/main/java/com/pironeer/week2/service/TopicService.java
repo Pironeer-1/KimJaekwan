@@ -1,11 +1,10 @@
 package com.pironeer.week2.service;
 
-import com.pironeer.week2.dto.request.TopicCreateRequest;
+import com.pironeer.week2.dto.request.TopicRequest;
 import com.pironeer.week2.dto.response.TopicResponse;
 import com.pironeer.week2.repository.TopicRepository;
 import com.pironeer.week2.repository.domain.Topic;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,7 @@ public class TopicService {
 
     private final TopicRepository topicRepository;
 
-    public void save(TopicCreateRequest request) {
+    public void save(TopicRequest request) {
         Topic topic = Topic.builder()
                 .title(request.title())
                 .content(request.content())
@@ -40,5 +39,19 @@ public class TopicService {
 
     public void delete(Long id) {
         topicRepository.delete(id);
+    }
+
+    public void update(Long id, TopicRequest request) {
+        Topic topic = Topic.builder()
+                .title(request.title())
+                .content(request.content())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        if (topic != null) {
+            topicRepository.update(id, topic);
+        } else {
+            throw new IllegalArgumentException("해당 topic이 존재하지 않습니다.");
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.pironeer.week2.repository;
 import com.pironeer.week2.repository.domain.Topic;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,5 +31,15 @@ public class TopicRepository {
 
     public void delete(Long id) {
         topicMap.remove(id);
+    }
+
+    public void update(Long id, Topic topic) {
+        Topic findTopic = topicMap.get(id);
+
+        findTopic.setTitle(topic.getTitle());
+        findTopic.setContent(topic.getContent());
+        findTopic.setUpdatedAt(LocalDateTime.now());
+
+        topicMap.put(id, findTopic);
     }
 }
