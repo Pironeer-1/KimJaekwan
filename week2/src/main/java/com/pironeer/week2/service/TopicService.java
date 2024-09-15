@@ -42,13 +42,13 @@ public class TopicService {
     }
 
     public void update(Long id, TopicRequest request) {
-        Topic topic = Topic.builder()
-                .title(request.title())
-                .content(request.content())
-                .updatedAt(LocalDateTime.now())
-                .build();
+        Topic topic = topicRepository.findById(id);
 
         if (topic != null) {
+            topic.setTitle(request.title());
+            topic.setContent(request.content());
+            topic.setUpdatedAt(LocalDateTime.now());
+
             topicRepository.update(id, topic);
         } else {
             throw new IllegalArgumentException("해당 topic이 존재하지 않습니다.");

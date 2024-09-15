@@ -47,7 +47,7 @@ public class TopicController {
             topicService.update(id, request);
             return ResponseEntity.ok("topic 수정 완료!");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 topic이 존재하지 않음");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("해당 ID의 topic이 존재하지 않음");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("topic 수정 중 오류 발생");
         }
