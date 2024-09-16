@@ -18,7 +18,7 @@ public class TopicRepository {
     public void save(Topic topic) {
         Long id = topicIdxGenerator.getAndIncrement();
         topic.setId(id);
-        topicMap.put(topicIdxGenerator.getAndIncrement(), topic);
+        topicMap.put(id, topic);
     }
 
     public Topic findById(Long id) {
