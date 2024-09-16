@@ -2,9 +2,11 @@ package com.pironeer.week2.repository;
 
 import com.pironeer.week2.repository.domain.Comment;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
@@ -20,5 +22,10 @@ public class CommentRepository {
         } else {
             commentMap.replace(comment.getId(), comment);
         }
+    }
+
+    public Optional<Comment> findById(Long id) {
+        Assert.notNull(id, "ID MUST NOT BE NULL");
+        return Optional.ofNullable(commentMap.get(id));
     }
 }

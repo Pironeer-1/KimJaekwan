@@ -2,12 +2,10 @@ package com.pironeer.week2.repository;
 
 import com.pironeer.week2.repository.domain.Topic;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
@@ -21,8 +19,9 @@ public class TopicRepository {
         topicMap.put(id, topic);
     }
 
-    public Topic findById(Long id) {
-        return topicMap.get(id);
+    public Optional<Topic> findById(Long id) {
+        Assert.notNull(id, "ID MUST NOT BE NULL");
+        return Optional.ofNullable(topicMap.get(id));
     }
 
     public List<Topic> findAll() {

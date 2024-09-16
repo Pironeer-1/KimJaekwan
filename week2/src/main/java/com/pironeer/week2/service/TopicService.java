@@ -28,7 +28,8 @@ public class TopicService {
     }
 
     public TopicResponse findById(Long id) {
-        Topic topic = topicRepository.findById(id);
+        Topic topic = topicRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("topic 이 존재하지 않음"));
         return TopicResponse.of(topic);
     }
 
@@ -42,7 +43,8 @@ public class TopicService {
     }
 
     public void update(Long id, TopicRequest request) {
-        Topic topic = topicRepository.findById(id);
+        Topic topic = topicRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("topic 이 존재하지 않음"));
 
         if (topic != null) {
             topic.setTitle(request.title());
