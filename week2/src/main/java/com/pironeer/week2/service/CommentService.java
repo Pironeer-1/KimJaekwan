@@ -10,6 +10,9 @@ import com.pironeer.week2.repository.domain.Topic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -19,14 +22,27 @@ public class CommentService {
     private final TopicRepository topicRepository;
 
     public void save(CommentRequest request) {
-        Topic topic = topicRepository.findById(request.topicId())
+        topicRepository.findById(request.topicId())
                 .orElseThrow(() -> new RuntimeException("topic 이 존재하지 않음"));
         commentRepository.save(CommentMapper.from(request));
     }
 
     public CommentResponse findById(Long id) {
-        Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("comment가 존재하지 않음"));
+        Comment comment = vaildateCommentById(id);
         return CommentResponse.of(comment);
+    }
+
+    /*
+    id로 해당 comment 가 repository 에 존재하는지 검증
+     */
+    private Comment vaildateCommentById(Long id) {
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("comment 가 존재하지 않음"));
+    }
+
+    public List<CommentResponse> findRepliesByParentId(Long parentId) {
+        vaildateCommentById(parentId);
+        List<Comment> replies = commentRepository.findByParentId(parentId);
+        return CommentResponse.getCommentResponses(replies);
     }
 }

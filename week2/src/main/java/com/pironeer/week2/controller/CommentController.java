@@ -41,4 +41,16 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("댓글 생성 중 오류 발생");
         }
     }
+
+    @GetMapping("/{commentId}/replies")
+    public ResponseEntity<?> getReplies(@PathVariable("commentId") Long id) {
+        try {
+            List<CommentResponse> replies = commentService.findRepliesByParentId(id);
+            return ResponseEntity.ok(replies);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("부모 comment 가 존재하지 않음");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("대댓글 조회 중 오류 발생");
+        }
+    }
 }

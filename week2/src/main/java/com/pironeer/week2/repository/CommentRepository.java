@@ -5,9 +5,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Repository
 public class CommentRepository {
@@ -27,5 +29,12 @@ public class CommentRepository {
     public Optional<Comment> findById(Long id) {
         Assert.notNull(id, "ID MUST NOT BE NULL");
         return Optional.ofNullable(commentMap.get(id));
+    }
+
+    public List<Comment> findByParentId(Long parentId) {
+        Assert.notNull(parentId, "Parent ID MUST NOT BE NULL");
+        return commentMap.values().stream()
+                .filter(comment -> parentId.equals(comment.getParentComentId()))
+                .collect(Collectors.toList());
     }
 }
