@@ -23,7 +23,9 @@ public class CommentService {
 
     public void save(CommentRequest request) {
         topicRepository.findById(request.topicId())
-                .orElseThrow(() -> new RuntimeException("topic 이 존재하지 않음"));
+                        .orElseThrow(() -> new RuntimeException("topic 이 존재하지 않음"));
+        topicRepository.findById(request.parentComentId())
+                        .orElseThrow(() -> new RuntimeException("부모 comment 가 존재하지 않음"));
         commentRepository.save(CommentMapper.from(request));
     }
 
@@ -44,5 +46,16 @@ public class CommentService {
         vaildateCommentById(parentId);
         List<Comment> replies = commentRepository.findByParentId(parentId);
         return CommentResponse.getCommentResponses(replies);
+    }
+
+    public void delete(Long id) {
+        vaildateCommentById(id);
+        List<Comment> replies = commentRepository.findByParentId(id);
+
+        for (Comment reply : replies) {
+            commentRepository.deleteCommentById(reply.getId());
+        }
+
+        commentRepository.deleteCommentById(id);
     }
 }

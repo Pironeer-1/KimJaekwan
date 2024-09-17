@@ -37,4 +37,8 @@ public class CommentRepository {
                 .filter(comment -> parentId.equals(comment.getParentComentId()))
                 .collect(Collectors.toList());
     }
+
+    public void deleteCommentById(Long id) {
+        commentMap.remove(id);
+    }
 }
