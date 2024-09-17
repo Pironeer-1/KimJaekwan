@@ -1,17 +1,16 @@
 package com.pironeer.week2.service;
 
-import com.pironeer.week2.dto.request.CommentRequest;
+import com.pironeer.week2.dto.request.CommentCreateRequest;
+import com.pironeer.week2.dto.request.CommentUpdateRequest;
 import com.pironeer.week2.dto.response.CommentResponse;
 import com.pironeer.week2.mapper.CommentMapper;
 import com.pironeer.week2.repository.CommentRepository;
 import com.pironeer.week2.repository.TopicRepository;
 import com.pironeer.week2.repository.domain.Comment;
-import com.pironeer.week2.repository.domain.Topic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -21,7 +20,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final TopicRepository topicRepository;
 
-    public void save(CommentRequest request) {
+    public void save(CommentCreateRequest request) {
         topicRepository.findById(request.topicId())
                         .orElseThrow(() -> new RuntimeException("topic 이 존재하지 않음"));
         topicRepository.findById(request.parentComentId())
@@ -55,7 +54,12 @@ public class CommentService {
         for (Comment reply : replies) {
             commentRepository.deleteCommentById(reply.getId());
         }
-
         commentRepository.deleteCommentById(id);
+    }
+
+    public CommentResponse update(CommentUpdateRequest request) {
+        Comment comment = vaildateCommentById(request.id());
+        commentRepository.save(comment.update(request));
+        return CommentResponse.of(comment);
     }
 }

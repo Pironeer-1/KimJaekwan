@@ -1,8 +1,10 @@
 package com.pironeer.week2.controller;
 
-import com.pironeer.week2.dto.request.CommentRequest;
+import com.pironeer.week2.dto.request.CommentCreateRequest;
+import com.pironeer.week2.dto.request.CommentUpdateRequest;
 import com.pironeer.week2.dto.response.CommentResponse;
 import com.pironeer.week2.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CommentRequest request) {
+    public ResponseEntity<?> create(@RequestBody CommentCreateRequest request) {
         commentService.save(request);
         return ResponseEntity.ok("댓글 생성 성공!");
     }
@@ -38,5 +40,11 @@ public class CommentController {
     public ResponseEntity<?> delete(@PathVariable("commentId") Long id) {
         commentService.delete(id);
         return ResponseEntity.ok("comment 삭제 성공!");
+    }
+
+    @PatchMapping
+    public ResponseEntity<CommentResponse> update(@Valid @RequestBody CommentUpdateRequest request) {
+        CommentResponse response = commentService.update(request);
+        return ResponseEntity.ok().body(response);
     }
 }

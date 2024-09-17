@@ -1,5 +1,6 @@
 package com.pironeer.week2.repository.domain;
 
+import com.pironeer.week2.dto.request.CommentUpdateRequest;
 import lombok.Builder;
 import lombok.Data;
 
@@ -22,5 +23,11 @@ public class Comment {
         this.parentComentId = parentComentId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public Comment update(CommentUpdateRequest request) {
+        this.content = request.content();
+        this.updatedAt = LocalDateTime.now();
+        return this;
     }
 }
