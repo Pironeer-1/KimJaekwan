@@ -41,4 +41,11 @@ public class CommentRepository {
     public void deleteCommentById(Long id) {
         commentMap.remove(id);
     }
+
+    public List<Comment> findByTopic(Long topicId) {
+        Assert.notNull(topicId, "Topic ID MUST NOT BE NULL");
+        return commentMap.values().stream()
+                .filter(comment -> topicId.equals(comment.getTopicId()))
+                .collect(Collectors.toList());
+    }
 }

@@ -1,8 +1,11 @@
 package com.pironeer.week2.service;
 
 import com.pironeer.week2.dto.request.TopicRequest;
+import com.pironeer.week2.dto.response.CommentResponse;
 import com.pironeer.week2.dto.response.TopicResponse;
+import com.pironeer.week2.repository.CommentRepository;
 import com.pironeer.week2.repository.TopicRepository;
+import com.pironeer.week2.repository.domain.Comment;
 import com.pironeer.week2.repository.domain.Topic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import java.util.List;
 public class TopicService {
 
     private final TopicRepository topicRepository;
+    private final CommentRepository commentRepository;
 
     public void save(TopicRequest request) {
         Topic topic = Topic.builder()
@@ -55,5 +59,10 @@ public class TopicService {
         } else {
             throw new IllegalArgumentException("해당 topic이 존재하지 않습니다.");
         }
+    }
+
+    public List<CommentResponse> findByTopic(Long id) {
+        List<Comment> comments = commentRepository.findByTopic(id);
+        return CommentResponse.getCommentResponses(comments);
     }
 }

@@ -1,7 +1,9 @@
 package com.pironeer.week2.controller;
 
 import com.pironeer.week2.dto.request.TopicRequest;
+import com.pironeer.week2.dto.response.CommentResponse;
 import com.pironeer.week2.dto.response.TopicResponse;
+import com.pironeer.week2.service.CommentService;
 import com.pironeer.week2.service.TopicService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,14 @@ public class TopicController {
     @GetMapping
     public ResponseEntity<List<TopicResponse>> readAllTopic() {
         List<TopicResponse> response = topicService.findAll();
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(method = "GET",
+            summary = "topic 으로 comment 조회 API")
+    @GetMapping("/{topicId}/comments")
+    public ResponseEntity<List<CommentResponse>> readCommentsOnTopic(@PathVariable("topicId") Long id) {
+        List<CommentResponse> response = topicService.findByTopic(id);
         return ResponseEntity.ok(response);
     }
 

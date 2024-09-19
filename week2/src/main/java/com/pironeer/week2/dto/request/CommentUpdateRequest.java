@@ -6,6 +6,6 @@ public record CommentUpdateRequest(
         Long id,
         @Schema(
                 description = "댓글 내용",
-                example = "내용 입니다")
+                example = "수정할 내용 입니다")
         String content) {
 }
