@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class CommentRepository {
-    private final AtomicLong commentIdxGenerator = new AtomicLong(0);
+    private final AtomicLong commentIdxGenerator = new AtomicLong(1);
     private final Map<Long, Comment> commentMap = new HashMap<>();
 
     public void save(Comment comment) {

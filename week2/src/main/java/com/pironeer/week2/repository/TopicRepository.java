@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class TopicRepository {
-    private final AtomicLong topicIdxGenerator = new AtomicLong(0);
+    private final AtomicLong topicIdxGenerator = new AtomicLong(1);
     private final Map<Long, Topic> topicMap = new HashMap<Long, Topic>();
 
     public void save(Topic topic) {
