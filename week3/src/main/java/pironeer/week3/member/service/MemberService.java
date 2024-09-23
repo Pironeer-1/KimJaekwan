@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pironeer.week3.global.dto.response.SuccessResponse;
 import pironeer.week3.global.dto.response.result.ListResult;
 import pironeer.week3.global.dto.response.result.SingleResult;
+import pironeer.week3.global.exception.CustomException;
+import pironeer.week3.global.exception.ErrorCode;
 import pironeer.week3.global.service.ResponseService;
 import pironeer.week3.member.dto.request.MemberRequest;
 import pironeer.week3.member.dto.response.MemberResponse;
@@ -26,7 +28,8 @@ public class MemberService {
     }
 
     public SingleResult<MemberResponse> findMemberById(Long id) {
-        Member member = memberRepository.findById(id).get();
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_EXIST));
         MemberResponse response = MemberResponse.of(member);
 
         return ResponseService.getSingleResult(response);
