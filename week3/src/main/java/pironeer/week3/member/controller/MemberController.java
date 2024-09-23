@@ -4,13 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pironeer.week3.global.dto.response.SuccessResponse;
 import pironeer.week3.global.dto.response.result.SingleResult;
 import pironeer.week3.member.dto.request.MemberRequest;
+import pironeer.week3.member.dto.response.MemberResponse;
 import pironeer.week3.member.service.MemberService;
 
 @RestController
@@ -25,6 +23,13 @@ public class MemberController {
     @Operation(summary = "회원가입")
     public SuccessResponse<SingleResult<Long>> register(@Valid @RequestBody MemberRequest request) {
         SingleResult<Long> result = memberService.register(request);
+        return SuccessResponse.ok(result);
+    }
+
+    @GetMapping("/{memberId}")
+    @Operation(summary = "회원 단건 조회")
+    public SuccessResponse<SingleResult<MemberResponse>> readMember(@PathVariable("memberId") Long id) {
+        SingleResult<MemberResponse> result = memberService.findMemberById(id);
         return SuccessResponse.ok(result);
     }
 }
