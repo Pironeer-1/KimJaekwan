@@ -2,6 +2,8 @@ package pironeer.week3.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pironeer.week3.global.dto.response.SuccessResponse;
+import pironeer.week3.global.dto.response.result.ListResult;
 import pironeer.week3.global.dto.response.result.SingleResult;
 import pironeer.week3.global.service.ResponseService;
 import pironeer.week3.member.dto.request.MemberRequest;
@@ -10,7 +12,8 @@ import pironeer.week3.member.entity.Member;
 import pironeer.week3.member.mapper.MemberMapper;
 import pironeer.week3.member.repository.MemberRepository;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +30,15 @@ public class MemberService {
         MemberResponse response = MemberResponse.of(member);
 
         return ResponseService.getSingleResult(response);
+    }
+
+    public ListResult<MemberResponse> findMembers() {
+        List<Member> members = memberRepository.findAll();
+
+        List<MemberResponse> response = members.stream()
+                .map(member -> MemberResponse.of(member))
+                .collect(Collectors.toList());
+
+        return ResponseService.getListResult(response);
     }
 }
