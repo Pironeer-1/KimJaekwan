@@ -40,4 +40,11 @@ public class MemberController {
         ListResult<MemberResponse> result = memberService.findMembers();
         return SuccessResponse.ok(result);
     }
+
+    @PutMapping("/{memberId}")
+    @Operation(summary = "회원 수정")
+    public SuccessResponse<SingleResult<Long>> updateMember(@PathVariable("memberId") Long id, MemberRequest request) {
+        SingleResult<Long> result = memberService.updateMember(id, request);
+        return SuccessResponse.ok(result);
+    }
 }

@@ -2,7 +2,7 @@ package pironeer.week3.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pironeer.week3.global.dto.response.SuccessResponse;
+import org.springframework.transaction.annotation.Transactional;
 import pironeer.week3.global.dto.response.result.ListResult;
 import pironeer.week3.global.dto.response.result.SingleResult;
 import pironeer.week3.global.exception.CustomException;
@@ -19,9 +19,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+    @Transactional
     public SingleResult<Long> register(MemberRequest request) {
         Member member = memberRepository.save(MemberMapper.from(request));
         return ResponseService.getSingleResult(member.getId());
@@ -43,5 +46,14 @@ public class MemberService {
                 .collect(Collectors.toList());
 
         return ResponseService.getListResult(response);
+    }
+
+    @Transactional
+    public SingleResult<Long> updateMember(Long id, MemberRequest request) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_EXIST));
+
+        member.update(request);
+        return ResponseService.getSingleResult(member.getId());
     }
 }
