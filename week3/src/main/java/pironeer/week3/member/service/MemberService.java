@@ -56,4 +56,13 @@ public class MemberService {
         member.update(request);
         return ResponseService.getSingleResult(member.getId());
     }
+
+    @Transactional
+    public SingleResult<Long> delelteMember(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_EXIST));
+
+        memberRepository.deleteById(id);
+        return ResponseService.getSingleResult(member.getId());
+    }
 }

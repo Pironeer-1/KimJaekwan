@@ -47,4 +47,11 @@ public class MemberController {
         SingleResult<Long> result = memberService.updateMember(id, request);
         return SuccessResponse.ok(result);
     }
+
+    @DeleteMapping("/{memberId}")
+    @Operation(summary = "회원 삭제")
+    public SuccessResponse<SingleResult<Long>> deleteMember(@PathVariable("memberId") Long id) {
+        SingleResult<Long> result = memberService.delelteMember(id);
+        return SuccessResponse.ok(result);
+    }
 }
