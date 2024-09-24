@@ -24,8 +24,18 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    /*
+     중복 회원 검증
+     */
+    private void validateDuplicateMember(MemberRequest request) {
+        if (memberRepository.findByUsername(request.username()).isPresent()) {
+            throw new CustomException(ErrorCode.USER_ALREADY_EXIST);
+        }
+    }
+
     @Transactional
     public SingleResult<Long> register(MemberRequest request) {
+        validateDuplicateMember(request);
         Member member = memberRepository.save(MemberMapper.from(request));
         return ResponseService.getSingleResult(member.getId());
     }
