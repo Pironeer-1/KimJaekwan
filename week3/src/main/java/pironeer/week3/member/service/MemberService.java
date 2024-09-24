@@ -1,6 +1,7 @@
 package pironeer.week3.member.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pironeer.week3.global.dto.response.result.ListResult;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /*
      중복 회원 검증
@@ -36,7 +38,7 @@ public class MemberService {
     @Transactional
     public SingleResult<Long> register(MemberRequest request) {
         validateDuplicateMember(request);
-        Member member = memberRepository.save(MemberMapper.from(request));
+        Member member = memberRepository.save(MemberMapper.from(request, bCryptPasswordEncoder));
         return ResponseService.getSingleResult(member.getId());
     }
 
