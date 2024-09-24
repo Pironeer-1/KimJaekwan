@@ -3,11 +3,16 @@ package pironeer.week3.member.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pironeer.week3.board.entity.Board;
 import pironeer.week3.member.dto.request.MemberRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter

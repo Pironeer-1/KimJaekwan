@@ -3,7 +3,6 @@ package pironeer.week3.board.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import pironeer.week3.member.entity.Member;
 
 public record BoardCreateRequest(
         @NotBlank
@@ -13,7 +12,7 @@ public record BoardCreateRequest(
         @Schema(description = "내용", example = "내용")
         String content,
         @NotNull
-        @Schema(description = "글쓴이", example = "글쓴이")
-        Member author
+        @Schema(description = "글쓴이", example = "1")
+        Long memberId
 ) {
 }
