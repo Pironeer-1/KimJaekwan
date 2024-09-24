@@ -20,7 +20,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping
+    @PostMapping("/register")
     @Operation(summary = "회원가입")
     public SuccessResponse<SingleResult<Long>> register(@Valid @RequestBody MemberRequest request) {
         SingleResult<Long> result = memberService.register(request);
