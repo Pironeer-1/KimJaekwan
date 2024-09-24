@@ -12,6 +12,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    // 인증이 필요하지 않은 URL 목록
+    private final String[] allowedUrls = {
+            "/api/**", // 임시 추가
+            "/api/members/login",
+            "/api/members/register",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+    };
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
 
@@ -36,9 +45,10 @@ public class SecurityConfig {
         // 경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "register").permitAll()
+                        .requestMatchers(allowedUrls).permitAll()
                         .requestMatchers("admin").hasRole("ADMIN")
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated()
+                        );
 
         // 세션 설정
         http
