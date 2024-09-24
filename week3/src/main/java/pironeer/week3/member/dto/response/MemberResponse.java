@@ -16,7 +16,7 @@ public record MemberResponse(
         public static MemberResponse of(Member member) {
                 return MemberResponse.builder()
                         .id(member.getId())
-                        .name(member.getName())
+                        .name(member.getUsername())
                         .build();
         }
 }

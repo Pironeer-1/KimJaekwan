@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 public record MemberRequest(
         @NotBlank
         @Schema(description = "이름", example = "닉네임")
-        String name,
+        String username,
         @NotBlank
         @Schema(description = "비밀번호", example = "비밀번호")
         String password) {

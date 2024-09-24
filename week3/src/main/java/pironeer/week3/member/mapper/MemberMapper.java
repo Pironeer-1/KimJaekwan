@@ -6,8 +6,9 @@ import pironeer.week3.member.entity.Member;
 public class MemberMapper {
     public static Member from(MemberRequest request) {
         return Member.builder()
-                .name(request.name())
+                .username(request.username())
                 .password(request.password())
+                .role("USER")
                 .build();
     }
 }
