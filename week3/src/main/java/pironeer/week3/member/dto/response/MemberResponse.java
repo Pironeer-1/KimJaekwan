@@ -11,12 +11,14 @@ public record MemberResponse(
         @Schema(description = "멤버 ID", example = "1")
         Long id,
         @Schema(description = "이름", example = "닉네임")
-        String name) {
+        String username,
+        String role) {
 
         public static MemberResponse of(Member member) {
                 return MemberResponse.builder()
                         .id(member.getId())
-                        .name(member.getUsername())
+                        .username(member.getUsername())
+                        .role(member.getRole())
                         .build();
         }
 }

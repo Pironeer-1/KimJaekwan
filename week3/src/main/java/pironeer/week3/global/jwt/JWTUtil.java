@@ -1,9 +1,6 @@
 package pironeer.week3.global.jwt;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,11 +23,12 @@ public class JWTUtil {
                 Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
-    public String createJwt(Long id) {
+    public String createJwt(String username, String role) {
         long now = System.currentTimeMillis();
 
         return Jwts.builder()
-                .claim("id", id) // id
+                .claim("username", username)
+                .claim("role", role)
                 .issuedAt(new Date(now)) // iat
                 .expiration(new Date(now + expiration)) // exp
                 .signWith(secretKey)
@@ -56,9 +54,14 @@ public class JWTUtil {
         return false;
     }
 
-    public Long getId(String token) {
+    public String getUsername(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token)
-                .getPayload().get("id", Long.class);
+                .getPayload().get("username", String.class);
+    }
+
+    public String getRole(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token)
+                .getPayload().get("role", String.class);
     }
 
     public boolean verify(String token) {
