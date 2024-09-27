@@ -76,3 +76,100 @@
     - 이유를 찾아보니 바로 납득했다
         - **명확한 역할 분리** → dto와 entity 간의 변환을 mapper가 해줘서 계층에서의 역할이 뚜렷해지고 가독성도 좋아진다
         - **중복 코드 감소**, **재사용성 증가** 등등..
+
+
+# 3주차 과제 - 나만의 템플릿 코드 만들기, SQL
+
+`나만의 컨벤션`
+
+### 응답
+
+- 프로젝트 구조
+
+```java
+├───board
+│   ├───controller
+│   ├───dto
+│   │   └───request
+│   ├───entity
+│   ├───mapper
+│   ├───repository
+│   └───service
+├───global
+│   ├───config
+│   ├───dto
+│   │   └───response
+│   │       └───result
+│   ├───exception
+│   ├───jwt
+│   └───service
+└───member
+    ├───controller
+    ├───dto
+    │   ├───request
+    │   └───response
+    ├───entity
+    ├───mapper
+    ├───repository
+    └───service
+
+```
+
+- 루트 디렉토리 아래에 필요한 도메인별로 디렉토리를 분리한다
+    - 기존에는 루트 아래에 controller에 모든 controller를 몰아 넣었는데 정리할 필요성을 느끼다가 위 방식을 써보니 매우 좋습니다..
+- 도메인 안에 있는 dto는 해당 도메인의 계층 간 데이터 이동할 때 사용
+- global의 dto에서는 각 컨트롤러에서의 응답을 규격화하는 response와 result로 감싸서 반환하는 역할
+    - result는 크게 Exception, 단일 값 결과, 리스트 값 결과로 나눠져 있다
+    - response는 Error와 정상 응답에 대한 값을 감싸서 같은 형식으로 반환할 수 있게 한다
+    
+    > ❓response에서 **of()** 와 **ok()**가 나눠져 있는 이유를 모르겠습니다
+    > 
+    > - 찾아보니 of() 함수는 객체를 생성하는 역할을 하고
+    > - ok()는 성공 응답을 반환할 때 사용한다고 이해했는데 맞을까요??
+    
+- 패키지는 도메인 중심으로 묶는다
+    
+    > 도메인이 많아질 경우 찾아보기 어렵기 때문에
+    > 
+- Controller 간소화한다
+    
+    > controller에서는 로직을 작성하지 않고 service 호출만 하여 간소화
+    > 
+    > 
+    > controller가 하는 일을 쉽게 파악하기 위해서 
+    > 
+- 클래스와 메소드는 최대한 작게 작게 만든다
+    
+    > 책임을 나누고 공통되는 코드들은 메서드로 관리한다
+    > 
+- 가독성이 좋은 코드 작성한다
+    
+    > 과도하게 줄여서 작성하지 않는다
+    > 
+- 예외는 Custom Exception으로 자세하게 처리한다
+    
+    > ErrorResponse DTO를 통해 응답을 규격화한다
+    > 
+- Swagger와 주석을 잘 작성한다
+    
+    > 주석은 너무 세세하게 적기보단 설명이 필요한 곳에만 적는다
+    > 
+- 테스트 코드를 작성한다
+    
+    > 기능별로 작성한다
+    > 
+- url은 명사의 복수형으로
+    
+    ```java
+    // 예시
+    /api/members/{id}
+    ```
+    
+    > ❓ 저는 명사의 복수형(members) 으로 사용하고 있는데 보통 단수형(member) 으로 사용하나요??
+    > 
+
+---
+
+`sql lv3 이상 10문제 풀고 인증하기` 
+
+![스크린샷 2024-09-27 134019](https://github.com/user-attachments/assets/c1923bed-f535-4d90-b405-e34c5d2e8bc6)
