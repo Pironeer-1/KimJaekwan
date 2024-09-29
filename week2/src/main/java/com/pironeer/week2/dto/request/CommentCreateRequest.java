@@ -16,7 +16,7 @@ public record CommentCreateRequest(
         String content,
         @Schema(
                 description = "부모 댓글 ID",
-                example = "1",
-                defaultValue = "1")
+                example = "0",
+                defaultValue = "0")
         Long parentComentId) {
 }

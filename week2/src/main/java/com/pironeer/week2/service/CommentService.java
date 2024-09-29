@@ -23,8 +23,11 @@ public class CommentService {
     public void save(CommentCreateRequest request) {
         topicRepository.findById(request.topicId())
                         .orElseThrow(() -> new RuntimeException("topic 이 존재하지 않음"));
-        topicRepository.findById(request.parentComentId())
-                        .orElseThrow(() -> new RuntimeException("부모 comment 가 존재하지 않음"));
+        // 부모 댓글이 없는 comment 는 parentCommentId 가 0
+        if (request.parentComentId() != 0) {
+            commentRepository.findById(request.parentComentId())
+                    .orElseThrow(() -> new RuntimeException("부모 comment 가 존재하지 않음"));
+        }
         commentRepository.save(CommentMapper.from(request));
     }
 
